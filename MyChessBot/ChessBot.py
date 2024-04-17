@@ -201,7 +201,7 @@ def print_board(board):
     print("Random moves (Black)\n")
     print(board_str)
     print("Minimax with alpha and beta pruning (White)")
-
+    #print(board.legal_moves)
 
 def main():
     board = chess.Board()
