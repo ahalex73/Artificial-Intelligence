@@ -25,8 +25,8 @@ def evaluate_board(board):
     black_king_safety = king_safety(board, chess.BLACK)
 
      # Evaluate pawn structure
-    white_pawn_structure = pawn_structure(board, chess.WHITE)
-    black_pawn_structure = pawn_structure(board, chess.BLACK)
+    white_pawn_structure = get_pawn_eval(board, chess.WHITE)
+    black_pawn_structure = get_pawn_eval(board, chess.BLACK)
 
     # Evaluate piece activity and mobility
     white_mobility = len(list(board.legal_moves)) / 100
@@ -66,14 +66,13 @@ def king_safety(board, color):
     
     return king_safety_score
 
-def pawn_structure(board, color):
+def get_pawn_eval(board, color):
     """ Evaluate a structure compared to other pawns"""
     pawn_structure_score = 0
     for square in board.pieces(chess.PAWN, color):
         pawn_structure_score += pawn_structure_eval(board, square, color)
     return pawn_structure_score
 
-# Bonus for good pawn structure
 def pawn_structure_eval(board, square, color):
     """ Evaluate pawns based on pawn structure (Neighboring pawns) """
 
@@ -93,7 +92,6 @@ def pawn_structure_eval(board, square, color):
                 break
     return bonus
 
-# Assign values to each piece
 def piece_value_white(piece):
     if piece.piece_type == chess.PAWN:
         return 1
@@ -124,8 +122,8 @@ def piece_value_black(piece):
         return -100
     return 0
 
-# Minimax function with alpha-beta pruning to find the best move
 def minimax_alpha_beta(board, depth, alpha, beta, maximizing_player):
+    """ Minimax function with alpha-beta pruning to find the best move """
     if depth == 0 or board.is_game_over():
         return evaluate_board(board)
 
@@ -154,6 +152,7 @@ def minimax_alpha_beta(board, depth, alpha, beta, maximizing_player):
 
 # Function for bot with minimax algorithm using alpha-beta pruning
 def minimax_bot_alpha_beta(board, depth):
+    """ Minimax bot """
     best_move = None
     max_eval = float('-inf')
     alpha = float('-inf')
